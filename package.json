@@ -12,7 +12,7 @@
     "musiz"
   ],
   "author": "Bouboufez",
-
+  "license": "WTFPL",
   "devDependencies": {
     "electron": "^19.0.8"
   }
