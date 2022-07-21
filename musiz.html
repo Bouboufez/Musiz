@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Musiz</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <script src="data.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap');
+
+        html,
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: rgb(40, 40, 40);
+            font-size: 0px;
+            user-select: none;
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+
+        ::-webkit-scrollbar-track {
+            background-color: rgb(45, 45, 45);
+            border-radius: 100px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgb(200, 200, 200);
+            border-radius: 100px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover,
+        ::-webkit-scrollbar-thumb:focus {
+            background-color: rgb(150, 150, 150);
+        }
+
+
+        div {
+            display: inline-block;
+            overflow: hidden;
+            font-size: 1em;
+            font-family: Open Sans;
+        }
+
+        div.lPane {
+            height: 90vh;
+            width: 25vw;
+            background-color: rgb(60, 60, 60);
+
+        }
+
+        div.lPaneContainer {
+            display: flex;
+            height: inherit;
+            width: inherit;
+            flex-direction: column;
+        }
+
+        div.rPane {
+            height: 90vh;
+            margin: 0px;
+            width: 72.5vw;
+            padding-left: 1.5vw;
+            padding-right: 1vw;
+            background-color: rgb(80, 80, 80);
+        }
+
+        div.bPane {
+            height: 10vh;
+            width: calc(40vw + 39.25vh);
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgb(40, 40, 40);
+            display: block;
+        }
+
+        div.middlePlayer {
+            width: 40vw;
+            height: 7vh;
+            margin-top: 1.5vh;
+            margin-bottom: 1.5vh;
+            vertical-align: bottom;
+            overflow: visible;
+        }
+
+        div.middleH2 {
+            width: 40vw;
+            height: 2vh;
+            font-size: 2vh;
+            line-height: 2vh;
+            padding-top: .5vh;
+            padding-bottom: .5vh;
+            margin: 0px;
+            color: rgb(250, 250, 250);
+            text-align: center;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow-y: visible;
+        }
+
+        div.middleH3 {
+            width: 40vw;
+            height: 1vh;
+            font-size: 1vh;
+            line-height: 1vh;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            color: rgb(200, 200, 200);
+            text-align: center;
+            overflow: visible;
+        }
+
+        div.menu {
+            min-height: 30vh;
+            max-height: 60vh;
+            width: 24vw;
+            padding: 0px .5vw;
+            overflow: auto;
+        }
+
+        input#slider {
+            width: calc(40vw - 4vh);
+            margin: 0px;
+            margin-left: 2vh;
+            margin-right: 2vh;
+        }
+
+        div#playPicture {
+            background-color: rgb(60, 60, 60);
+            margin-top: 1.5vh;
+            margin-bottom: 1.5vh;
+            margin-left: 2vh;
+            margin-right: 2vh;
+            height: 7vh;
+            width: 7vh;
+            font-size: 3.5vh;
+            line-height: 7vh;
+            color: rgb(110, 110, 110);
+            vertical-align: bottom;
+            text-align: center;
+            border-radius: .75vh;
+        }
+
+        img {
+            height: inherit;
+            width: inherit;
+            object-fit: cover;
+        }
+
+        div.playlist {
+            width: 24vw;
+            padding-right: .5vw;
+            padding-left: .5vw;
+            min-height: 30vh;
+            max-height: 60vh;
+            overflow: auto;
+            flex-grow: 1;
+        }
+
+        audio {
+            display: none;
+        }
+
+        button#playButton {
+            margin-top: 1.5vh;
+            margin-bottom: 1.5vh;
+            margin-left: 2vh;
+            margin-right: 2vh;
+            height: 7vh;
+            width: 7vh;
+            padding: 0px;
+            border: none;
+            background-color: rgb(150, 150, 150);
+            color: rgb(250, 250, 250);
+            font-size: 3.5vh;
+            border-radius: 20vh;
+            cursor: pointer;
+        }
+
+        div.rightActions {
+            height: 8.5vh;
+            margin: .75vh 0vh;
+            width: 17.25vh;
+            vertical-align: bottom;
+        }
+
+        button.rightActionsButton {
+            margin: .25vh 1vh;
+            height: 3.75vh;
+            width: 3.75vh;
+            padding: 0px;
+            border: none;
+            background-color: rgb(150, 150, 150);
+            color: rgb(250, 250, 250);
+            font-size: 2vh;
+            border-radius: 20vh;
+            cursor: pointer;
+        }
+
+        input#slider {
+            -webkit-appearance: none;
+            margin-top: .5vh;
+            height: .75vh;
+            margin-bottom: .75vh;
+            outline: none;
+            background-color: rgb(120, 120, 120);
+            vertical-align: top;
+            border-radius: 5vh;
+            cursor: pointer;
+        }
+
+        div.volSliderDiv {
+            height: 4.25vh;
+            width: 11.5vh;
+            vertical-align: middle;
+        }
+
+        input#volSlider {
+            -webkit-appearance: none;
+            height: .75vh;
+            width: 9.5vh;
+            margin-top: 1vh;
+            margin-bottom: 1vh;
+            outline: none;
+            background-color: rgb(210, 210, 210);
+            border-radius: 5vh;
+            cursor: pointer;
+            margin-left: 1vh;
+            margin-right: 1vh;
+        }
+
+        input#slider::-moz-range-thumb,
+        input#volSlider::-moz-range-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: white;
+            background-color: white;
+            outline: none;
+            border: 0px;
+            height: 1.5vh;
+            width: 1.5vh;
+            border-radius: 2vh;
+        }
+
+        input#slider::-webkit-slider-thumb,
+        input#volSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            background: white;
+            background-color: white;
+            outline: none;
+            border: 0px;
+            height: 1.5vh;
+            width: 1.5vh;
+            border-radius: 2vh;
+        }
+
+        h2 {
+            font-size: 4vh;
+            height: 4vh;
+            line-height: 4vh;
+            color: rgb(250, 250, 250);
+            margin: 0px;
+            padding-top: 2vh;
+            padding-bottom: 1.5vh;
+        }
+
+        h4 {
+            font-size: 2vh;
+            height: 2vh;
+            line-height: 2vh;
+            color: rgb(250, 250, 250);
+            margin: 0px;
+            padding-top: 1vh;
+            padding-bottom: 0.5vh;
+            background-color: rgb(60, 60, 60);
+        }
+
+        hr {
+            border: 0px;
+            height: 1px;
+            background: linear-gradient(0.25turn, rgb(210, 210, 210) 50%, rgb(80, 80, 80) 100%);
+        }
+
+        div#itemsList,
+        div#itemsTable {
+            height: calc(78.75vh - 2px);
+            width: inherit;
+            overflow: auto;
+        }
+
+        div.listItem {
+            height: 9vh;
+            width: calc(72.5vw - 5px);
+            border: 0px;
+            border-bottom: 1px solid rgb(120, 120, 120);
+        }
+
+        div.listL {
+            height: 7.5vh;
+            width: 7.5vh;
+            padding: .75vh;
+        }
+
+        div.listPic {
+            height: inherit;
+            width: inherit;
+            background-color: rgb(60, 60, 60);
+            font-size: 3.25vh;
+            line-height: 6.5vh;
+            color: rgb(110, 110, 110);
+            vertical-align: bottom;
+            text-align: center;
+            border-radius: .75vh;
+        }
+
+        div.listM {
+            height: 6vh;
+            width: calc(72.5vw - 29vh);
+            padding: 1vh;
+        }
+
+        div.listH2 {
+            width: inherit;
+            height: 2vh;
+            font-size: 2vh;
+            line-height: 2vh;
+            color: rgb(250, 250, 250);
+            padding-bottom: .5vh;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+        }
+
+        div.listH3 {
+            width: inherit;
+            height: 1.2vh;
+            font-size: 1.2vh;
+            line-height: 1.2vh;
+            padding-bottom: .5vh;
+            color: rgb(200, 200, 200);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        div.listTags {
+            width: inherit;
+            height: 2.8vh;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+
+        span.tag {
+            font-size: 1.3vh;
+            padding: .25vh .5vw;
+            color: rgb(180, 180, 180);
+            background-color: rgb(100, 100, 100);
+            margin-left: 0px;
+            margin-right: .5vw;
+            border-radius: 50vw;
+            cursor: pointer;
+        }
+
+        div.listR {
+            height: 5.5vh;
+            width: 14.5vh;
+            padding: 1.25vh;
+        }
+
+        button.buttonListPlay {
+            height: inherit;
+            width: 5.5vh;
+            padding: 0px;
+            border: none;
+            background-color: rgb(120, 120, 120);
+            color: rgb(200, 200, 200);
+            font-size: 3vh;
+            border-radius: 20vh;
+            cursor: pointer;
+        }
+
+        button.buttonListPL {
+            margin: 0.25vh 0px 0.25vh 1vh;
+            height: 3.5vh;
+            width: 3.5vh;
+            padding: 0px;
+            border: none;
+            background-color: rgb(120, 120, 120);
+            color: rgb(200, 200, 200);
+            font-size: 2.5vh;
+            border-radius: 20vh;
+            cursor: pointer;
+        }
+
+        button.actionSmall {
+            font-size: 1.25vh;
+            border: 0px;
+            padding: .25vh .75vw;
+            color: rgb(200, 200, 200);
+            background-color: rgb(110, 110, 110);
+            margin: .5vh .75vw .5vh 0px;
+            height: 2.25vh;
+            border-radius: 50vw;
+            font-family: Open Sans;
+            cursor: pointer;
+        }
+
+        button.actionBig,
+        input.actionBig,
+        label.actionBig {
+            font-size: 1.75vh;
+            height: 2.75vh;
+            border: 0px;
+            padding: .25vh .75vw;
+            color: rgb(180, 180, 180);
+            background-color: rgb(60, 60, 60);
+            margin: .5vh .75vw .5vh 0px;
+            border-radius: 50vw;
+            font-family: Open Sans;
+            cursor: pointer;
+        }
+
+        div.plItem {
+            height: 3vh;
+            width: 24vw;
+            border: 0px;
+            border-bottom: 1px solid rgb(90, 90, 90);
+        }
+
+        div#plList {
+            height: auto;
+            width: 24vw;
+            overflow: auto;
+        }
+
+        div.plText {
+            font-size: 1.5vh;
+            width: calc(24vw - 6vh);
+            line-height: 3vh;
+            height: 3vh;
+            color: rgb(220, 220, 220);
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        div.plCurrent {
+            color: white
+        }
+
+        div.plActions {
+            width: 6vh;
+            height: 3vh;
+        }
+
+        button.plButton {
+            margin: 0.25vh;
+            width: 2.5vh;
+            height: 2.5vh;
+            border: 0px;
+            border-radius: 20vh;
+            font-size: 1.5vh;
+            cursor: pointer;
+            background-color: rgb(110, 110, 110);
+            color: rgb(210, 210, 210);
+        }
+
+        div.plVide {
+            font-size: 1.75vh;
+            color: rgb(150, 150, 150);
+            font-style: oblique;
+            text-align: center;
+            width: inherit;
+            height: 5vh;
+            line-height: 5vh;
+        }
+
+        div.filterVide {
+            font-size: 1.5vh;
+            color: rgb(150, 150, 150);
+            font-style: oblique;
+            text-align: center;
+            width: inherit;
+            height: 1.5vh;
+            line-height: 1.5vh;
+            padding: 1vh 0px .5vh 0px;
+        }
+
+        div.globalActionsPl {
+            width: 24vw;
+            background-color: rgb(60, 60, 60);
+        }
+
+        div.tableItem {
+            margin: .25vh;
+            padding: 1vh .75vh;
+            border: 1px solid rgb(120, 120, 120);
+            width: 25vh;
+            border-radius: 2vh;
+            text-align: center;
+        }
+
+        div.tablePic {
+            height: 23vh;
+            width: 23vh;
+            margin: 0px 1vh 1vh 1vh;
+            background-color: rgb(60, 60, 60);
+            color: rgb(110, 110, 110);
+            font-size: 12vh;
+            vertical-align: middle;
+            text-align: center;
+            line-height: 23vh;
+            border-radius: 1vh;
+
+        }
+
+        div.tableActions {
+            width: inherit;
+            height: 2.5vh;
+            margin-bottom: .5vh;
+        }
+
+        button.tableButton {
+            background-color: rgb(120, 120, 120);
+            color: rgb(220, 220, 220);
+            padding: .25vh .5vw;
+            height: 2.5vh;
+            font-size: 1.5vh;
+            line-height: 2vh;
+            border: none;
+            cursor: pointer;
+            border-radius: 20vh;
+            margin: 0px .25vw;
+            width: 8.5vh;
+        }
+
+        div#tagsList {
+            color: rgb(250, 250, 250);
+            font-size: 1.5vh;
+        }
+
+        div.tagListItem {
+            font-size: 1.5vh;
+            padding: .25vh .5vw;
+            color: rgb(250, 250, 250);
+            background-color: rgb(160, 160, 160);
+            margin-top: .5vh;
+            margin-left: 0px;
+            margin-right: .5vw;
+            border-radius: 50vw;
+            cursor: pointer;
+        }
+
+        div.tagDisabled {
+            background-color: rgb(110, 110, 110);
+            color: rgb(200, 200, 200);
+        }
+
+        div.overscreen {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 2;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(0, 0, 0, 0.5);
+            display: none;
+        }
+
+        div.addingPane {
+            border: 0px;
+            padding: 1vh 1vw;
+            margin: 5vh 5vw;
+            height: 88vh;
+            width: 88vw;
+            border-radius: 2vh;
+            background-color: rgb(80, 80, 80);
+        }
+
+        div#fileList {
+            overflow: auto;
+            height: calc(71.5vh - 3px);
+            width: inherit;
+        }
+
+        div.file {
+            height: 12vh;
+            border-bottom: 1px solid rgb(120, 120, 120);
+        }
+
+        div.fileLeft {
+            height: inherit;
+            width: 10vh;
+        }
+
+        div.fileR {
+            height: inherit;
+            width: calc(87vw - 10vh);
+        }
+
+        label.picChange {
+            height: 1.5vh;
+            line-height: 1.5vh;
+            font-size: 1.5vh;
+            text-align: center;
+            padding-top: 0.25vh;
+            padding-bottom: 0.25vh;
+            background-color: rgb(60, 60, 60);
+            border-radius: 5vh;
+            color: rgb(220, 220, 220);
+            width: 8vh;
+            margin: 0px 1vh;
+            cursor: pointer;
+            display: inline-block;
+            border: 0px;
+        }
+
+        div.filePic {
+            background-color: rgb(60, 60, 60);
+            margin: 1vh;
+            margin-bottom: .5vh;
+            height: 8vh;
+            width: 8vh;
+            font-size: 4vh;
+            line-height: 8vh;
+            color: rgb(110, 110, 110);
+            vertical-align: bottom;
+            text-align: center;
+            border-radius: .75vh;
+        }
+
+        div.fileLine {
+            height: 2.5vh;
+            margin: 0.25vh 0px;
+            width: inherit;
+            display: inline-block;
+        }
+
+        div.fileLabel {
+            font-size: 1.75vh;
+            margin-left: .5vw;
+            line-height: 2.5vh;
+            color: rgb(220, 220, 220);
+            vertical-align: middle;
+            width: 7vh;
+        }
+
+        input[type="text"] {
+            height: 2vh;
+            border: none;
+            background-color: rgb(150, 150, 150);
+            display: inline-block;
+            vertical-align: middle;
+            font-family: Open Sans;
+            font-weight: bold;
+            font-size: 1.5vh;
+        }
+
+        h4.paneH4 {
+            background: rgb(80, 80, 80);
+            height: 2.75vh;
+            display: inline-block
+        }
+    </style>
+    <script>
+        var fs = require("fs")
+        var data = dataList
+        const jsmediatags = window.jsmediatags;
+        var dataAdd = []
+        var fList = []
+        var pl = []
+        var plIndex = -1
+        var plLoop = 0
+        var display = "grid"
+        var tagsDico = {}
+        var tagsTable = []
+        var keysList
+        var globalI = 0
+        var paneOpen = false
+        var globalAlbumArt
+        var playSpeed = 100
+        var tempHidden = ""
+
+        function mediaPlay() {
+            var video = document.getElementById("player")
+
+            if (video.paused) {
+                video.play()
+            } else {
+                video.pause()
+            }
+            refreshPlayer()
+        }
+
+        function refreshPlayer() {
+            var video = document.getElementById("player")
+            if (video.paused) {
+                document.getElementById("playButtonIcon").classList.add('fa-play')
+                document.getElementById("playButtonIcon").classList.remove('fa-pause')
+            } else {
+                document.getElementById("playButtonIcon").classList.remove('fa-play')
+                document.getElementById("playButtonIcon").classList.add('fa-pause')
+            }
+            var dur = video.duration
+            var cur = video.currentTime
+
+            if (!video.seeking) {
+                if (dur) {
+                    document.getElementById("slider").value = (cur / dur) * 1000000
+                } else {
+                    document.getElementById("slider").value = 0
+                }
+            }
+            if (dur) {
+                document.getElementById("slider").style.background = "linear-gradient(0.25turn, rgb(210,210,210) " + (cur / dur) * 100 + "%, rgb(120,120,120) " + (cur / dur) * 100 + "%)"
+            } else {
+                document.getElementById("slider").style.backgroundColor = "rgb(120,120,120)"
+            }
+            if (dur == Infinity) {
+                if (cur && cur >= 3600) {
+                document.getElementById("seekPosition").innerHTML = showDuration(cur, "hms")
+            } else {
+                document.getElementById("seekPosition").innerHTML = showDuration(cur, "ms")
+            }
+            } else if (dur && dur >= 3600) {
+                document.getElementById("seekPosition").innerHTML = showDuration(cur, "hms") + " / " + showDuration(dur, "hms")
+            } else {
+                document.getElementById("seekPosition").innerHTML = showDuration(cur, "ms") + " / " + showDuration(dur, "ms")
+            }
+        }
+
+        function mediaSeek() {
+            var video = document.getElementById("player")
+            var val = document.getElementById("slider").value
+            var dur = video.duration
+            video.currentTime = dur * val / 1000000
+        }
+
+        function timeSeek(delta) {
+            var video = document.getElementById("player")
+            video.currentTime += delta
+        }
+
+        function volDisp() {
+            var video = document.getElementById("player")
+            if (video.muted == true || document.getElementById("volSlider").value == 0) {
+                document.getElementById("muteButton").innerHTML = '<i class="fa-solid fa-volume-xmark"></i>'
+                document.getElementById("volSlider").style.backgroundColor = "rgb(120,120,120)"
+            } else {
+                var percentage = document.getElementById("volSlider").value
+                document.getElementById("volSlider").style.background = "linear-gradient(0.25turn, rgb(210,210,210) " + percentage + "%, rgb(120,120,120) " + percentage + "%)"
+                if (document.getElementById("volSlider").value <= 50) {
+                    document.getElementById("muteButton").innerHTML = '<i class="fa-solid fa-volume-low"></i>'
+                } else {
+                    document.getElementById("muteButton").innerHTML = '<i class="fa-solid fa-volume-high"></i>'
+                }
+            }
+        }
+
+        function volumeSeek() {
+            var video = document.getElementById("player")
+            var slider = document.getElementById("volSlider");
+            video.volume = slider.value / 100
+            volDisp()
+        }
+
+        function muteButton() {
+            var video = document.getElementById("player")
+            video.muted = !video.muted
+            volDisp()
+        }
+
+        function loadMedia(i) {
+            var mediaObj = data[i]
+            var video = document.getElementById("player")
+            //Image
+            if (mediaObj.albumArt) {
+                document.getElementById("playPicture").innerHTML = '<img src="' + mediaObj.albumArt + '" class="playPic">'
+            } else {
+                document.getElementById("playPicture").innerHTML = '<i class="fa-solid fa-music"></i>'
+            }
+            //Titre et artiste
+            if (mediaObj.title && mediaObj.artist) {
+                document.getElementById("currentTitleArtist").innerHTML = mediaObj.title + " • " + mediaObj.artist
+                tempHidden = mediaObj.title + " • " + mediaObj.artist
+            } else if (mediaObj.title) {
+                document.getElementById("currentTitleArtist").innerHTML = mediaObj.title
+                tempHidden = mediaObj.title
+            } else if (mediaObj.artist) {
+                document.getElementById("currentTitleArtist").innerHTML = mediaObj.artist
+                tempHidden = mediaObj.artist
+            }
+            else {
+                document.getElementById("currentTitleArtist").innerHTML = mediaObj.mediaLink
+                tempHidden = mediaObj.mediaLink
+            }
+            document.getElementsByTagName("title")[0].innerHTML = tempHidden + " • Musiz"
+            //Sous-titre et année
+            if (mediaObj.subtitle && mediaObj.year) {
+                document.getElementById("currentSubtitleYear").innerHTML = mediaObj.subtitle + " • " + mediaObj.year
+            } else if (mediaObj.subtitle) {
+                document.getElementById("currentSubtitleYear").innerHTML = mediaObj.subtitle
+            } else if (mediaObj.year) {
+                document.getElementById("currentSubtitleYear").innerHTML = mediaObj.year
+            }
+            else {
+                document.getElementById("currentSubtitleYear").innerHTML = " "
+            }
+            //Lancement du titre
+            video.src = mediaObj.mediaLink
+            video.play()
+            refreshPlayer()
+        }
+
+        function showDuration(time, format) {
+            if (time) {
+                var timeSeconds = Math.ceil(time)
+                if (format == "hms") {
+                    var hours = Math.floor(timeSeconds / 3660)
+                    timeSeconds -= 3600 * hours
+                    if (hours == 0) {
+                        hours = "0"
+                    }
+                    if (hours < 10) {
+                        hours = "0" + hours
+                    }
+                }
+                var minutes = Math.floor(timeSeconds / 60)
+                timeSeconds -= 60 * minutes
+                if (minutes == 0) {
+                    minutes = "0"
+                }
+                if (minutes < 10) {
+                    minutes = "0" + minutes
+                }
+                if (timeSeconds == 0) {
+                    timeSeconds = "0"
+                }
+                if (timeSeconds < 10) {
+                    timeSeconds = "0" + timeSeconds
+                }
+                if (format == "hms") {
+                    return hours + ":" + minutes + ":" + timeSeconds
+                }
+                if (format == "ms") {
+                    return minutes + ":" + timeSeconds
+                }
+            } else {
+                if (format == "hms") {
+                    return "00:00:00"
+                }
+                if (format == "ms") {
+                    return "00:00"
+                }
+            }
+        }
+
+        function displayList(data) {
+            var contentList = ""
+            var contentTable = ""
+            var i
+            for (i = 0; i < data.length; i++) {
+                if (data[i].albumArt) {
+                    var thumb = '<img class="listImg" src="' + data[i].albumArt + '">'
+                } else {
+                    var thumb = '<i class="fa-solid fa-music"></i>'
+                }
+
+                //Titre et artiste
+                if (data[i].title && data[i].artist) {
+                    var titleArtist = data[i].title + " • " + data[i].artist
+                    var title = data[i].title
+                    var artist = data[i].artist
+                } else if (data[i].title) {
+                    var titleArtist = data[i].title
+                    var title = data[i].title
+                    var artist = "Artiste inconnu"
+                } else if (data[i].artist) {
+                    var titleArtist = data[i].artist
+                    var title = "Titre inconnu"
+                    var artist = data[i].artist
+                } else {
+                    var titleArtist = data[i].mediaLink
+                    var artist = "Artiste inconnu"
+                    var title = "Titre inconnu"
+                }
+                //Sous-titre et année
+                if (data[i].subtitle && data[i].year) {
+                    var subtitleYear = data[i].subtitle + " • " + data[i].year
+                } else if (data[i].subtitle) {
+                    var subtitleYear = data[i].subtitle
+                } else if (data[i].year) {
+                    var subtitleYear = data[i].year
+                } else {
+                    var subtitleYear = " "
+                }
+
+                var taglist = ""
+                var j
+                for (j = 0; j < data[i].tags.length; j++) {
+                    id = keysList.indexOf(data[i].tags[j].toLowerCase())
+                    taglist += '<span class="tag" onclick="onlyTag(' + id + ')">#' + data[i].tags[j] + '</span>'
+                }
+
+                contentList += '<div class="listItem" id="listItem' + i + '"><div class="listL"><div class="listPic">' + thumb + '</div></div><div class="listM"><div class="listH2" title="' + titleArtist + '">' + titleArtist + '</div><div class="listH3" title="' + subtitleYear + '">' + subtitleYear + '</div><div class="listTags">' + taglist + '</div></div><div class="listR"><button class="buttonListPlay" title="Jouer ce titre" onclick="directPlayPlaylist(' + i + ')"><i class="fa-solid fa-play"></i></button><button class="buttonListPL" onclick="addPlaylist(' + i + ',true)"><i class="fa-solid fa-plus" title="Ajouter à la playlist"></i></button><button class="buttonListPL" title="Supprimer de la bibliothèque" onclick="deleteFile(' + i + ')"><i class="fa-solid fa-xmark"></i></button></div></div>'
+                contentTable += '<div class="tableItem" id="tableItem' + i + '"><div class="tablePic">' + thumb + '</div><div class="listH2" title="' + title + '">' + title + '</div><div class="listH2" title="' + artist + '">' + artist + '</div><div class="listH3" title="' + subtitleYear + '">' + subtitleYear + '</div><div class="tableActions"><button class="tableButton" title="Jouer ce titre" onclick="directPlayPlaylist(' + i + ')" style="font-weight:bold"><i class="fa-solid fa-play"></i> Lire</button><button class="tableButton" title="Ajouter à la playlist" onclick="addPlaylist(' + i + ',true)"><i class="fa-solid fa-plus"></i> Playlist</button><button class="tableButton" title="Supprimer de la bibliothèque" onclick="deleteFile(' + i + ')" style="width:2.5vh;padding:inherit"><i class="fa-solid fa-xmark"></i></button></div><div class="listTags">' + taglist + '</div></div>'
+            }
+            document.getElementById("itemsList").innerHTML = contentList
+            document.getElementById("itemsTable").innerHTML = contentTable
+        }
+
+        function displayPl() {
+            var content = ""
+            var i
+            if (pl.length == 0) {
+                document.getElementById("plList").innerHTML = '<div class="plVide">La playlist est vide.</div>'
+            } else {
+                for (i = 0; i < pl.length; i++) {
+                    //Titre et artiste
+                    if (data[pl[i]].title && data[pl[i]].artist) {
+                        var titleArtist = data[pl[i]].title + " • " + data[pl[i]].artist
+                    } else if (data[pl[i]].title) {
+                        var titleArtist = data[pl[i]].title
+                    } else if (data[pl[i]].artist) {
+                        var titleArtist = data[pl[i]].artist
+                    } else {
+                        var titleArtist = data[pl[i]].mediaLink
+                    }
+
+                    if (i == plIndex) {
+                        var classes = "plText plCurrent"
+                    } else {
+                        var classes = "plText"
+                    }
+                    content += '<div class="plItem"><div class="' + classes + '" title="' + titleArtist + '">#' + (i + 1) + '&emsp;' + titleArtist + '</div><div class="plActions"><button class="plButton" title="Jouer ce titre maintenant" onclick=(playPlaylist(' + i + '))><i class="fa-solid fa-play"></i></button><button class="plButton" title="Supprimer de la playlist" onclick=(delPlaylist(' + i + '))><i class="fa-solid fa-xmark"></i></button></div></div>'
+                }
+                document.getElementById("plList").innerHTML = content
+            }
+        }
+
+        function delPlaylist(id) {
+            pl.splice(id, 1)
+            if (id == plIndex) {
+                plIndex = -1
+            }
+            if (id < plIndex) {
+                plIndex--
+            }
+            displayPl()
+        }
+        function addPlaylist(id, refresh) {
+            pl.push(id)
+            if (refresh) {
+                displayPl()
+            }
+        }
+        function directPlayPlaylist(id) {
+            addPlaylist(id, false)
+            playPlaylist(pl.length - 1)
+        }
+        function playPlaylist(id) {
+            plIndex = id
+            displayPl()
+            loadMedia(pl[id])
+        }
+
+        function clearPlaylist() {
+            if (pl.length > 0 && window.confirm("Voulez-vous vraiment vider la liste de lecture ?")) {
+                pl = []
+                plIndex = -1
+                displayPl()
+            }
+        }
+
+        function playNext() {
+            if (plIndex >= 0) {
+                if (plIndex < pl.length - 1) {
+                    playPlaylist(plIndex + 1)
+                }
+                else if (plLoop == 1) {
+                    playPlaylist(0)
+                } else {
+                    var video = document.getElementById("player")
+                    var dur = video.duration
+                    if (video.currentTime != dur) {
+                        video.currentTime = dur + 1
+                    }
+                }
+            } else {
+                var video = document.getElementById("player")
+                var dur = video.duration
+                if (video.currentTime != dur) {
+                    video.currentTime = dur + 1
+                }
+            }
+        }
+
+        function playAll() {
+            startID = pl.length
+            for (var i = 0; i < data.length; i++) {
+                if (document.getElementById("tableItem" + i).style.display != "none") {
+                    addPlaylist(i, false)
+                }
+            }
+            playPlaylist(startID)
+        }
+
+        function toggleLoopPlaylist() {
+            if (plLoop == 0) {
+                plLoop = 1
+                document.getElementById("loopButton").innerHTML = '<i class="fa-solid fa-ban"></i> Arrêter de lire en boucle'
+            } else {
+                plLoop = 0
+                document.getElementById("loopButton").innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Lire en boucle'
+            }
+        }
+
+        function switchDisplay() {
+            if (display == "grid") {
+                display = "list"
+                document.getElementById("displays").innerHTML = '<i class="fa-solid fa-grip"></i> Changer d\'affichage'
+                document.getElementById("itemsList").style.display = "inline-block"
+                document.getElementById("itemsTable").style.display = "none"
+            } else {
+                display = "grid"
+                document.getElementById("displays").innerHTML = '<i class="fa-solid fa-list"></i> Changer d\'affichage'
+                document.getElementById("itemsList").style.display = "none"
+                document.getElementById("itemsTable").style.display = "inline-block"
+            }
+        }
+
+        function getTagsDico() {
+            var i
+            for (i = 0; i < data.length; i++) {
+                var j
+                for (j = 0; j < data[i].tags.length; j++) {
+                    var key = data[i].tags[j].toLowerCase()
+                    if (key in tagsDico) {
+                        tagsDico[key].push(i)
+                    } else {
+                        tagsDico[key] = [i]
+                    }
+                }
+            }
+
+            var tempKeysList = Object.keys(tagsDico)
+            keysList = tempKeysList.sort(function (a, b) {
+                return tagsDico[b].length - tagsDico[a].length
+            })
+            var ii;
+            var content = ""
+            for (ii = 0; ii < keysList.length; ii++) {
+                content += "<div class='tagListItem tagDisabled' onclick='toggleTag(" + ii + ")'>" + keysList[ii] + " (" + tagsDico[keysList[ii]].length + ")</div>"
+                tagsTable.push({ key: keysList[ii], display: false, noMatch: false, displayID: ii })
+            }
+            document.getElementById("tagsList").innerHTML = content
+        }
+
+        function toggleTag(i) {
+            tagName = tagsTable[i].key
+            if (tagsTable[i].display == true) {
+                document.getElementsByClassName("tagListItem")[tagsTable[i].displayID].classList.add("tagDisabled")
+                tagsTable[i].display = false
+            } else {
+                document.getElementsByClassName("tagListItem")[tagsTable[i].displayID].classList.remove("tagDisabled")
+                tagsTable[i].display = true
+            }
+            applyTags()
+        }
+
+        function onlyTag(i) {
+            tagName = tagsTable[i].key
+            document.getElementsByClassName("tagListItem")[tagsTable[i].displayID].classList.remove("tagDisabled")
+            for (var j = 0; j < tagsTable.length; j++) {
+                if (i == j) {
+                    tagsTable[j].display = true
+                } else {
+                    tagsTable[j].display = false
+                }
+            }
+            applyTags()
+        }
+
+        function applyTags() {
+            let tagValues = []
+            for (var i = 0; i < data.length; i++) {
+                tagValues.push(0)
+            }
+            var noFilter = true
+            var tagNumber = 0
+            for (var i = 0; i < tagsTable.length; i++) {
+                if (tagsTable[i].display == true) {
+                    tagNumber += 1
+                    for (var j = 0; j < tagsDico[tagsTable[i].key].length; j++) {
+                        tagValues[tagsDico[tagsTable[i].key][j]] += 1
+                        noFilter = false
+                    }
+                }
+            }
+            var itemsDisplayed = []
+            for (var i = 0; i < tagValues.length; i++) {
+                if (tagValues[i] == tagNumber || noFilter) {
+                    document.getElementById("tableItem" + i).style.display = "inline-block"
+                    document.getElementById("listItem" + i).style.display = "inline-block"
+                    itemsDisplayed.push(i)
+                } else {
+                    document.getElementById("tableItem" + i).style.display = "none"
+                    document.getElementById("listItem" + i).style.display = "none"
+                }
+            }
+            for (var i = 0; i < tagsTable.length; i++) {
+                if (tagsDico[tagsTable[i].key].some(function (j) { return itemsDisplayed.includes(j) })) {
+                    tagsTable[i].noMatch = false
+                } else {
+                    tagsTable[i].noMatch = true
+                }
+            }
+            displayTagList()
+        }
+
+        function displayTagList() {
+            var contentEnabled = ""
+            var contentDisabled = ""
+            var jj = 0
+            for (var ii = 0; ii < keysList.length; ii++) {
+                if (tagsTable[ii].noMatch == false && tagsTable[ii].display == false) {
+                    contentDisabled += "<div class='tagListItem tagDisabled' onclick='toggleTag(" + ii + ")'>" + keysList[ii] + " (" + tagsDico[keysList[ii]].length + ")</div>"
+                    tagsTable[ii].displayID = jj
+                    jj++
+                } else if (tagsTable[ii].noMatch == false) {
+                    contentEnabled += "<div class='tagListItem' onclick='toggleTag(" + ii + ")'><i class='fa-regular fa-circle-xmark'></i> " + keysList[ii] + " (" + tagsDico[keysList[ii]].length + ")</div>"
+                    tagsTable[ii].displayID = jj
+                    jj++
+                }
+            }
+            document.getElementById("tagsList").innerHTML = contentDisabled
+            document.getElementById("enabledTagsList").innerHTML = contentEnabled
+
+            if (contentEnabled == "") {
+                document.getElementById("enabledTagsList").innerHTML = "<div class='filterVide'>Aucun filtre n'est appliqué</div>"
+            }
+        }
+
+        function showAddPane() {
+            paneOpen = true
+            document.getElementsByTagName("title")[0].innerHTML = "Ajouter des titres à la bibliothèque • Musiz"
+            document.getElementById("addPane").style.display = "inline-block"
+            globalAlbumArt = ""
+            var video = document.getElementById("player")
+            if (video.paused != true) {
+                mediaPlay()
+            }
+        }
+
+        function newFileSelection() {
+            dataAdd = []
+            fList = document.getElementById("fileUpload").files
+            globalI = 0
+            globalAlbumArt = ""
+            readMeta(fList[globalI])
+            document.getElementById("addValidationButton").style.display = "inline-block"
+        }
+
+        function addURL() {
+            var fObj = {}
+            fObj.title = document.getElementById("urlInput").value
+            fObj.subtitle = ""
+            fObj.artist = ""
+            fObj.year = ""
+            fObj.albumArt = ""
+            fObj.mediaLink = document.getElementById("urlInput").value
+            fObj.tags = []
+
+            updateInputs()
+            dataAdd.push(fObj)
+            showFileSelection()
+            document.getElementById("addValidationButton").style.display = "inline-block"
+        }
+
+        function readMeta(file) {
+            var fObj = {}
+            fObj.title = fList[globalI].name
+            fObj.subtitle = ""
+            fObj.artist = ""
+            fObj.year = ""
+            fObj.albumArt = ""
+            fObj.mediaLink = fList[globalI].path
+            fObj.tags = []
+
+            dataAdd.push(fObj)
+
+
+            jsmediatags.read(file, {
+                onSuccess: function (tag) {
+                    iUpdate(tag)
+                },
+                onError: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function iUpdate(tag) {
+            if (tag.tags.picture && tag.tags.picture.data) {
+                var picdata = tag.tags.picture.data;
+                var format = tag.tags.picture.format;
+                let base64String = "";
+                for (let i = 0; i < picdata.length; i++) {
+                    base64String += String.fromCharCode(picdata[i]);
+                }
+                dataAdd[globalI].albumArt = `data:${format};base64,${window.btoa(base64String)}`
+            }
+            if (tag.tags.title) {
+                dataAdd[globalI].title = tag.tags.title;
+            }
+            if (tag.tags.artist) {
+                dataAdd[globalI].artist = tag.tags.artist;
+            }
+            if (tag.tags.album) {
+                dataAdd[globalI].subtitle = tag.tags.album;
+            }
+            if (tag.tags.year) {
+                dataAdd[globalI].year = tag.tags.year
+            }
+            if (tag.tags.genre) {
+                dataAdd[globalI].tags = [tag.tags.genre]
+            }
+            if (globalI == (fList.length - 1)) {
+                showFileSelection()
+            } else {
+                globalI++
+                readMeta(fList[globalI])
+            }
+        }
+
+        function showFileSelection() {
+            var content = ""
+            for (var i = 0; i < dataAdd.length; i++) {
+                var title = '<div class="fileLine"><div class="fileLabel" style="width:inherit">' + dataAdd[i].mediaLink + '</div></div>'
+                if (dataAdd[i].albumArt == "") {
+                    var line0 = '<div class="file"><div class="fileLeft"><div class="filePic"><i class="fa-solid fa-music"></i></div><label for="picChange' + i + '" class="picChange">Modifier</label><input id="picChange' + i + '" type="file" style="display:none" accept="image/*" onchange="updatePic(' + i + ')"></input></div>'
+                } else {
+                    var line0 = '<div class="file"><div class="fileLeft"><div class="filePic"><img src="' + dataAdd[i].albumArt + '"></div><label for="picChange' + i + '" class="picChange">Modifier</label><input id="picChange' + i + '" type="file" style="display:none" accept="image/*" onchange="updatePic(' + i + ')"></input></div>'
+                }
+                var line1 = '<div class="fileR"><div class="fileLine"><div class="fileLabel">Titre</div><input type="text" style="width: calc(86vw - 18vh) ;" id="typeTitle' + i + '" value="' + dataAdd[i].title + '"></div>'
+                var line2 = '<div class="fileLine"><div class="fileLabel">Artiste</div><input type="text" style="width: calc(86vw - 18vh) ;" id="typeArtist' + i + '" value="' + dataAdd[i].artist + '"></div>'
+                var line3 = '<div class="fileLine"><div class="fileLabel">Année</div><input type="text" style="width: 5vw" id="typeYear' + i + '" value="' + dataAdd[i].year + '"><div class="fileLabel" style="width:16vh;">Sous-titre / album</div><input type="text" style="width: calc(80.5vw - 34.5vh) ;" id="typeSubtitle' + i + '" value="' + dataAdd[i].subtitle + '"></div>'
+                var line4 = '<div class="fileLine"><div class="fileLabel">Tags</div><input type="text" style="width: calc(86vw - 18vh) ;" placeholder="Séparer les tags par des barres obliques : |" id="typeTags' + i + '" value="' + dataAdd[i].tags.join("|") + '"></div></div></div>'
+                content += title + line0 + line1 + line2 + line3 + line4
+
+            }
+            if (dataAdd.length > 1) {
+                if (globalAlbumArt == "") {
+                    var line0 = '<div class="file"><div class="fileLeft"><div class="filePic" id="globalPic"><i class="fa-solid fa-music"></i></div><label for="picChangeGlobal" class="picChange">Modifier</label><input id="picChangeGlobal" type="file" style="display:none" accept="image/*" onchange="updatePic(-1)"></input></div>'
+                } else {
+                    var line0 = '<div class="file"><div class="fileLeft"><div class="filePic" id="globalPic"><img src="' + globalAlbumArt + '"></div><label for="picChangeGlobal" class="picChange">Modifier</label><input id="picChangeGlobal" type="file" style="display:none" accept="image/*" onchange="updatePic(-1)"></input></div>'
+                }
+                var line1 = '<div class="fileR"><div class="fileLine"><div class="fileLabel">Titre</div><input type="text" style="width: calc(86vw - 18vh) ;" id="typeTitleGlobal" value=""></div>'
+                var line2 = '<div class="fileLine"><div class="fileLabel">Artiste</div><input type="text" style="width: calc(86vw - 18vh) ;" id="typeArtistGlobal" value=""></div>'
+                var line3 = '<div class="fileLine"><div class="fileLabel">Année</div><input type="text" style="width: 5vw" id="typeYearGlobal" value=""><div class="fileLabel" style="width:16vh;">Sous-titre / album</div><input type="text" style="width: calc(80.5vw - 34.5vh) ;" id="typeSubtitleGlobal" value=""></div>'
+                var line4 = '<div class="fileLine"><div class="fileLabel">Tags</div><input type="text" style="width: calc(86vw - 18vh) ;" placeholder="Séparer les tags par des barres obliques : |" id="typeTagsGlobal" value=""></div></div></div>'
+
+
+                content = "<h4 class='paneH4'>Modèle : en cliquant sur <button class='actionBig' style='margin:0px' onclick='applyModel()'>Appliquer à tous</button>, les champs remplis écraseront les champs correspondants de tous les titres en cours d'importation</h4>" + line0 + line1 + line2 + line3 + line4 + "<hr>" + content
+            }
+            document.getElementById("fileList").innerHTML = content
+        }
+
+        function applyModel() {
+            var modelTitle = document.getElementById("typeTitleGlobal").value
+            var modelArtist = document.getElementById("typeArtistGlobal").value
+            var modelYear = document.getElementById("typeYearGlobal").value
+            var modelSubtitle = document.getElementById("typeSubtitleGlobal").value
+            var modelTags = document.getElementById("typeTagsGlobal").value
+            var modelArt = globalAlbumArt
+
+            for (var i = 0; i < dataAdd.length; i++) {
+                if (modelTitle != "") {
+                    document.getElementById('typeTitle' + i).value = modelTitle
+                }
+                if (modelArtist != "") {
+                    document.getElementById('typeArtist' + i).value = modelArtist
+                }
+                if (modelYear != "") {
+                    document.getElementById('typeYear' + i).value = modelYear
+                }
+                if (modelSubtitle != "") {
+                    document.getElementById('typeSubtitle' + i).value = modelSubtitle
+                }
+                if (modelTags != "") {
+                    document.getElementById('typeTags' + i).value = modelTags
+                }
+                if (modelArt != "") {
+                    dataAdd[i].albumArt = file.path
+                }
+            }
+            globalAlbumArt = ""
+            document.getElementById("globalPic").innerHTML = '<i class="fa-solid fa-music"></i>'
+            updateInputs()
+            showFileSelection()
+
+        }
+
+        function updatePic(i) {
+            if (i == -1) {
+                file = document.getElementById("picChangeGlobal").files[0]
+                globalAlbumArt = file.path
+                document.getElementById("globalPic").innerHTML = '<img src="' + globalAlbumArt + '">'
+            } else {
+                file = document.getElementById("picChange" + i).files[0]
+                dataAdd[i].albumArt = file.path
+                updateInputs()
+                showFileSelection()
+            }
+        }
+
+        function updateInputs() {
+            for (var i = 0; i < dataAdd.length; i++) {
+                dataAdd[i].title = document.getElementById("typeTitle" + i).value.trim()
+                dataAdd[i].subtitle = document.getElementById("typeSubtitle" + i).value.trim()
+                dataAdd[i].artist = document.getElementById("typeArtist" + i).value.trim()
+                dataAdd[i].year = document.getElementById("typeYear" + i).value.trim()
+
+                var list = document.getElementById("typeTags" + i).value.split("|")
+                var newList = []
+                for (var j = 0; j < list.length; j++) {
+                    if (list[j].trim() != "" && !(newList.includes(list[j].trim()))) {
+                        newList.push(list[j].trim())
+                    }
+                }
+                dataAdd[i].tags = newList
+            }
+        }
+
+        function closePane() {
+            dataAdd = []
+            showFileSelection()
+            paneOpen = false
+            document.getElementsByTagName("title")[0].innerHTML = tempHidden + " • Musiz"
+            document.getElementById("addPane").style.display = "none"
+            document.getElementById("addValidationButton").style.display = "none"
+
+        }
+
+        function confirmAdd() {
+            updateInputs()
+            for (var i = 0; i < dataAdd.length; i++) {
+                data.push(dataAdd[i])
+            }
+            fs.writeFile("data.js", "var dataList =" + JSON.stringify(data), function (err) {
+                if (err) throw err;
+            })
+
+            tagsDico = {}
+            tagsTable = []
+            keysList = []
+            getTagsDico()
+            displayList(data)
+            closePane()
+        }
+
+        function deleteFile(i) {
+            if (window.confirm("Voulez-vous vraiment supprimer ce titre de la bibliothèque ?")) {
+                data.splice(i, 1)
+                fs.writeFile("data.js", "var dataList =" + JSON.stringify(data), function (err) {
+                    if (err) throw err;
+                })
+
+
+                tagsDico = {}
+                tagsTable = []
+                keysList = []
+                getTagsDico()
+                displayList(data)
+                for (var j = 0; j < pl.length; j++) {
+                    if (pl[j] == i) {
+                        pl.splice(j, 1)
+                        j--
+                        if (plIndex == j) {
+                            plIndex = -1
+                        }
+                        if (plIndex > j) {
+                            plIndex--
+                        }
+                    }
+                    if (pl[j] > i) {
+                        pl[j]--
+                    }
+                }
+                displayPl()
+            }
+        }
+
+        function revertTitle() {
+            document.getElementById("currentTitleArtist").innerHTML = tempHidden
+        }
+    </script>
+</head>
+
+<body>
+    <div class="lPane">
+        <div class="lPaneContainer">
+            <div class="menu">
+                <h2 style="text-align: center;position: sticky;top: 0px;background-color: rgb(60, 60, 60);">Musiz</h2>
+                <hr style="position: sticky;top: 7.5vh">
+                <h4 style="position: sticky;top: calc(7.5vh + 1px);">Filtrer par un tag</h4>
+                <hr style="position: sticky;top:  calc(11vh + 1px);">
+                <div class="globalActionsPl" id="enabledTagsList" style="height:auto;margin-bottom: .5vh;">
+                    <div class='filterVide'>Aucun filtre n'est appliqué</div>
+                </div>
+                <hr>
+                <div id="tagsList"></div>
+            </div>
+            <div class="playlist">
+                <h4 style="position: sticky;top: 0px;">Liste de lecture</h4>
+                <hr style="position: sticky;top: 3.5vh">
+                <div class="globalActionsPl" style="position: sticky;top: calc(3.5vh + 1px)">
+                    <button id="loopButton" class="actionSmall" onclick="toggleLoopPlaylist()"><i
+                            class="fa-solid fa-arrows-rotate"></i> Lire en boucle</button>
+                    <button class="actionSmall" onclick="clearPlaylist()"><i class="fa-solid fa-trash-can"></i> Vider la
+                        liste</button>
+                </div>
+                <hr style="position: sticky;top: calc(6.75vh + 1px)">
+                <div id="plList">
+                    <div class="plVide">La playlist est vide.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <div class="rPane">
+        <h2 id="listTitle">Tous les titres</h2>
+        <hr>
+        <button class="actionBig" onclick="playAll()"><i class="fa-solid fa-forward"></i> Tout lire</button>
+        <button class="actionBig" onclick="switchDisplay()" id="displays"><i class="fa-solid fa-list"></i> Changer
+            d'affichage</button>
+        <button class="actionBig" onclick="showAddPane()"><i class="fa-solid fa-file-circle-plus"></i> Ajouter des
+            titres à la bibliothèque</button>
+        <hr>
+        <div id="itemsList" style="display: none;">
+        </div>
+        <div id="itemsTable" style="display: inline-block;">
+        </div>
+    </div>
+    <!---->
+    <div class="bPane">
+        <button id="playButton" onclick="mediaPlay()"><i id="playButtonIcon" class="fa-solid fa-play"
+                title="Pause"></i></button>
+        <div id="playPicture"><i class="fa-solid fa-music"></i></div>
+
+        <div class="middlePlayer">
+            <input type="range" id="slider" min="0" max="1000000" value="1000000" oninput="mediaSeek()">
+            <div class="middleH3" id="seekPosition">00:00 / 00:00</div>
+            <div class="middleH2" id="currentTitleArtist"></div>
+            <div class="middleH3" id="currentSubtitleYear"></div>
+        </div>
+
+        <div class="rightActions">
+            <button onclick="playNext()" title="Passer au son suivant" class="rightActionsButton"><i
+                    class="fa-solid fa-forward-step"></i></button>
+            <button onclick="timeSeek(-5)" title="Revenir en arrière (- 5 secondes)" class="rightActionsButton"><i
+                    class="fa-solid fa-backward"></i></button>
+            <button onclick="timeSeek(10)" title="Avancer un peu (+ 10 secondes)" class="rightActionsButton"><i
+                    class="fa-solid fa-forward"></i></button>
+            <button id="muteButton" onclick="muteButton()" title="Couper le son" class="rightActionsButton"><i
+                    class="fa-solid fa-volume-high"></i></button>
+            <div class="volSliderDiv">
+                <input type="range" title="Ajuster le volume" id="volSlider" min="0" max="100" value="100"
+                    oninput="volumeSeek()">
+            </div>
+        </div>
+    </div>
+
+    <div class="overscreen" id="addPane">
+        <div class="addingPane">
+            <h2>Ajouter des titres</h2>
+            <hr>
+            <label for="fileUpload" class="actionBig"><i class="fa-solid fa-file"></i> Sélectionner des fichiers</label>
+            <input id="fileUpload" type="file" style="display:none" accept="audio/*" multiple></input>
+            <button class="actionBig" onclick="closePane()"><i class="fa-solid fa-circle-xmark"></i> Annuler et
+                fermer</button>
+            <button class="actionBig" id="addValidationButton" onclick="confirmAdd()" style="display:none"><i
+                    class="fa-solid fa-circle-check"></i> Valider et
+                ajouter</button>
+            <hr>
+                <h4 class="paneH4">Importer à partir d'une URL</h4>
+                <div class="fileLine">
+                    <div class="fileLabel">URL</div>
+                    <input type="text" id="urlInput" placeholder="https://..." style="width:calc(85vw - 16vh)">
+                    <button onclick="addURL()" class="actionSmall" style="background-color: rgb(60,60,60);margin:0 0 0 .5vw;font-size:1.5vh;line-height:1.5vh;color:rgb(220,220,220);vertical-align: top;width: 8vh;">Ajouter</button>
+                </div>
+            <hr>
+            <div id="fileList">
+            </div>
+        </div>
+    </div>
+
+    <audio controls id="player"></audio>
+
+    <script>
+        getTagsDico()
+        displayList(data)
+        displayPl()
+        setInterval(refreshPlayer, 20)
+        volumeSeek()
+
+        var audio = document.getElementById("player");
+        audio.onended = function () {
+            playNext()
+        };
+
+        var addInput = document.getElementById("fileUpload")
+        addInput.addEventListener("change", newFileSelection)
+
+
+        window.addEventListener("keydown", function (event) {
+            if (event.defaultPrevented) {
+                return; // Do nothing if the event was already processed
+            }
+
+            switch (event.key) {
+                case " ":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        mediaPlay()
+                    }
+                    break;
+                case "ArrowRight":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        timeSeek(5)
+                    }
+                    break;
+                case "ArrowLeft":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        timeSeek(-5)
+                    }
+                    break;
+                case "ArrowUp":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        document.getElementById("volSlider").value -= -10
+                        volumeSeek()
+                    }
+                    break;
+                case "ArrowDown":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        document.getElementById("volSlider").value -= 10
+                        volumeSeek()
+                    }
+                    break;
+                case "m":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        muteButton()
+                    }
+                    break;
+                case "M":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        muteButton()
+                    }
+                    break;
+                case "l":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        toggleLoopPlaylist()
+                    }
+                    break;
+                case "L":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        toggleLoopPlaylist()
+                    }
+                    break;
+                case "o":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        if (playSpeed > 10) {
+                            playSpeed -= 10
+                        }
+                        document.getElementById("player").playbackRate = playSpeed / 100
+                        document.getElementById("player").defaultPlaybackRate = playSpeed / 100
+                        document.getElementById("currentTitleArtist").innerHTML = "Vitesse de lecture : " + playSpeed + "%"
+                        setTimeout(revertTitle, 3000)
+                    }
+                    break;
+                case "O":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        if (playSpeed > 10) {
+                            playSpeed -= 10
+                        }
+                        document.getElementById("player").playbackRate = playSpeed / 100
+                        document.getElementById("player").defaultPlaybackRate = playSpeed / 100
+                        document.getElementById("currentTitleArtist").innerHTML = "Vitesse de lecture : " + playSpeed + "%"
+                        setTimeout(revertTitle, 3000)
+
+                    }
+                    break;
+                case "p":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        playSpeed -= -10
+                        document.getElementById("player").playbackRate = playSpeed / 100
+                        document.getElementById("player").defaultPlaybackRate = playSpeed / 100
+                        document.getElementById("currentTitleArtist").innerHTML = "Vitesse de lecture : " + playSpeed + "%"
+                        setTimeout(revertTitle, 3000)
+                    }
+                    break;
+                case "P":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        playSpeed -= -10
+                        document.getElementById("player").playbackRate = playSpeed / 100
+                        document.getElementById("player").defaultPlaybackRate = playSpeed / 100
+                        document.getElementById("currentTitleArtist").innerHTML = "Vitesse de lecture : " + playSpeed + "%"
+                        setTimeout(revertTitle, 3000)
+                    }
+                    break;
+                case "i":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        playSpeed = 100
+                        document.getElementById("player").playbackRate = 1
+                        document.getElementById("player").defaultPlaybackRate = 1
+                        document.getElementById("currentTitleArtist").innerHTML = "Vitesse de lecture : " + playSpeed + "%"
+                        setTimeout(revertTitle, 3000)
+                    }
+                    break;
+                case "I":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        playSpeed = 100
+                        document.getElementById("player").playbackRate = 1
+                        document.getElementById("player").defaultPlaybackRate = 1
+                        document.getElementById("currentTitleArtist").innerHTML = "Vitesse de lecture : " + playSpeed + "%"
+                        setTimeout(revertTitle, 3000)
+                    }
+                    break;
+                case "Escape":
+                    if (paneOpen) {
+                        closePane()
+                    } else {
+                        return
+                    }
+                    break;
+                case "Enter":
+                    if (paneOpen) {
+                        return
+                    } else {
+                        playNext()
+                    }
+                    break;
+                default:
+                    return; // Quit when this doesn't handle the key event.
+            }
+
+            // Cancel the default action to avoid it being handled twice
+            event.preventDefault();
+        }, true);
+        // the last option dispatches the event to the listener first,
+        // then dispatches event to window
+
+    </script>
+</body>
+
+</html>

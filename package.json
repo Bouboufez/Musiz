@@ -1,0 +1,19 @@
+{
+  "name": "musiz",
+  "version": "1.0.0",
+  "description": "lecteur et gestionnaire de bibliothque musicale",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": "https://github.com/electron/electron-quick-start",
+  "keywords": [
+    "music",
+    "musiz"
+  ],
+  "author": "Bouboufez",
+
+  "devDependencies": {
+    "electron": "^19.0.8"
+  }
+}
